@@ -39,7 +39,7 @@ async function appStart() {
 // }
 
 
-async function deleteGameDiv(gameID){
+async function deleteGameBox(gameID){
     const response = await fetch(apiURL + "/games/" + gameID, {
         method: "DELETE"
     });
@@ -48,7 +48,7 @@ async function deleteGameDiv(gameID){
 }
 
 async function deleteGame(gameID, div){
-    const responseMsg = await deleteGameDiv(gameID);
+    const responseMsg = await deleteGameBox(gameID);
     console.log(responseMsg);
     console.log(gameID);
     removeDeletedElementFromDOM(div);
@@ -87,28 +87,32 @@ async function createGame(){
 }
 
 
-// function updateGameRequest(gameId, updatedGameObj, callbackCreateGame){
-//     fetch(apiURL + "/games/" + gameId , {
+
+// function updateGameRequest(gameID, updatedGameObj){
+//     return fetch(apiURL + "/games/" + gameID, {
 //         method: "PUT",
 //         headers: {
 //             "Content-Type": "application/x-www-form-urlencoded"
 //         },
-//         body: updatedGameObj
-//     }).then(function(response){
-//         return response.json();
-//     }).then(function(updatedGame){
-//         console.log(updatedGame);
-//         callbackCreateGame(updatedGame);
-//     });
+//         body:updatedGameObj
+//     }).then(response => response.json())
 // }
 
 
-function updateGameRequest(gameID, updatedGameObj){
-    return fetch(apiURL + "/games/" + gameID, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body:updatedGameObj
-    }).then(response => response.json())
+async function updateGameRequest(gameID, updatedGameObj){
+    const response = fetch(apiURL + "/games/" + gameID, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body:updatedGameObj
+            })
+            const newVersion = await response.json();
+            return newVersion;
+}
+
+
+async function gameUpdate(gameID, updatedGameObj, gameBox){
+    const newVersion = await updateGameRequest(gameID, updatedGameObj)
+    newDomElement(gameBox, newVersion)
 }
