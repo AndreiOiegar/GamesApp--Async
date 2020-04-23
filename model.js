@@ -1,73 +1,89 @@
 var apiURL = "https://games-app-siit.herokuapp.com";
 
-// function getGamesList(callbackFunction){
-//     fetch(apiURL + "/games", {
-//         method: "GET",
-//         headers: {
-//             "Content-Type": "application/x-www-form-urlencoded"
-//         }
-//     }).then(function(response){
-//         return response.json();
-//     }).then(function(arrayOfGames){
-//         callbackFunction(arrayOfGames);
-//     });
+
+
+// function getGamesList() {
+//     return fetch(apiURL + "/games", {
+//                 method: "GET",
+//                 headers: {
+//                     "Content-Type": "application/x-www-form-urlencoded"
+//                     }
+//                 }).then(response => response.json());
 // }
 
+async function getGamesList() {
+    const response = await fetch(apiURL + "/games", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+    });
+    const arrayOfGames = response.json();
+    return arrayOfGames;
+}
 
-function getGamesList() {
-    return fetch(apiURL + "/games", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                    }
-                }).then(response => response.json());
+async function appStart() {
+    const arrayOfGames = await getGamesList();
+    console.log(arrayOfGames);
+    for(var i = 0; i < arrayOfGames.length; i++) {
+        createDomElement(arrayOfGames[i]);
+    }
 }
 
 
 
-// function deleteGame(gameID, callbackFunction) {
-//     fetch(apiURL + "/games/" + gameID, {
-//         method: "DELETE"
-//     }).then(function(r){
-//         return r.text();
-//     }).then(function(apiresponse){
-//         callbackFunction(apiresponse);
-//     });
-
+// function deleteGame(gameID) {
+//     return fetch(apiURL + "/games/" + gameID, {
+//         method: "DELETE",
+//     }).then( r => r.text());
 // }
 
-function deleteGame(gameID) {
-    return fetch(apiURL + "/games/" + gameID, {
-        method: "DELETE",
-    }).then( r => r.text());
+
+async function deleteGameDiv(gameID){
+    const response = await fetch(apiURL + "/games/" + gameID, {
+        method: "DELETE"
+    });
+    const responseMsg = response.text();
+    return responseMsg;
+}
+
+async function deleteGame(gameID, div){
+    const responseMsg = await deleteGameDiv(gameID);
+    console.log(responseMsg);
+    console.log(gameID);
+    removeDeletedElementFromDOM(div);
 }
 
 
 
-// function createGameRequest(gameObject, callbackCreateGame){
+
+
+// function createGameRequest(gameObject) {
 //     fetch(apiURL + "/games", {
 //         method: "POST",
 //         headers: {
 //             "Content-Type": "application/x-www-form-urlencoded"
 //         },
-//         body: gameObject
-//     }).then(function(response){
-//         return response.json();
-//     }).then(function(createdGame){
-//         console.log(createdGame);
-//         callbackCreateGame(createdGame);
-//     });
+//         body:gameObject
+//     }).then(response => response.json())
 // }
 
 
-function createGameRequest(gameObject) {
-    fetch(apiURL + "/games", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body:gameObject
-    }).then(response => response.json())
+async function createGameRequest(gameObject){
+    const response = await fetch(apiURL + "/games", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body:gameObject
+            });
+            const newGame = response.json;
+            return newGame;
+}
+
+async function createGame(){
+    const newGame = await createGameRequest(gameobject);
+    createDomElement(newGame)
 }
 
 

@@ -1,16 +1,13 @@
 
-// getGamesList(function(arrayOfGames){
+appStart()
+
+// getGamesList().then(arrayOfGames =>{
 //     for(var i = 0; i < arrayOfGames.length; i++) {
 //         createDomElement(arrayOfGames[i]);
 //     }
 // });
 
 
-getGamesList().then(arrayOfGames =>{
-    for(var i = 0; i < arrayOfGames.length; i++) {
-        createDomElement(arrayOfGames[i]);
-    }
-});
 
 
 
@@ -51,12 +48,7 @@ function createDomElement(gameObj){
 
         
         if(event.target.classList.contains("delete-btn")){
-        //     deleteGame(event.target.getAttribute("id"), function(apiResponse){
-        //             console.log(apiResponse);
-        //             const editForm = event.target.parentElement;
-        //             removeDeletedElementFromDOM(editForm);
-        //         })
-                deleteGame(event.target.getAttribute("id")).then( apiResponse => {
+            deleteGame(event.target.getAttribute("id"), function(apiResponse){
                     console.log(apiResponse);
                     const editForm = event.target.parentElement;
                     removeDeletedElementFromDOM(editForm);
@@ -93,8 +85,8 @@ function newGameVersion(gameELement){
     urlencoded.append("imageUrl", updatedGameImageUrl);
 
     console.log(gameELement);
-    // updateGameRequest(gameELement.getAttribute('id'), urlencoded, createDomElement);
-    updateGameRequest(gameELement.getAttribute('id'), urlencoded).then(createDomElement)
+    updateGameRequest(gameELement.getAttribute('id'), urlencoded, createDomElement);
+    // updateGameRequest(gameELement.getAttribute('id'), urlencoded).then(createDomElement)
 
 
 }
@@ -165,8 +157,8 @@ document.querySelector(".submitBtn").addEventListener("click", function(event){
         urlencoded.append("imageUrl", gameImageUrl.value);
         urlencoded.append("description", gameDescription.value);
 
-        // createGameRequest(urlencoded, createDomElement);
-        createGameRequest(urlencoded).then(createDomElement);
+        createGameRequest(urlencoded, createDomElement);
+        // createGameRequest(urlencoded).then(createDomElement);
     }
 })
 
