@@ -94,7 +94,7 @@ function newGameVersion(gameELement){
 
     console.log(gameELement);
     // updateGameRequest(gameELement.getAttribute('id'), urlencoded, createDomElement);
-    updateGameRequest(gameELement.getAttribute('id'), urlencoded).then(createDomEl)
+    updateGameRequest(gameELement.getAttribute('id'), urlencoded).then(createDomElement)
 
 
 }
